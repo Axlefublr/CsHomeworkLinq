@@ -15,27 +15,33 @@ internal class Program
 			new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com")
 		};
 
-      while (true)
-      {
-         char input = Console.ReadKey().KeyChar;
+		phoneBook = phoneBook
+			.OrderBy(contact => contact.FirstName)
+			.ThenBy(contact => contact.LastName)
+			.Select(contact => contact)
+			.ToList();
 
-         bool isParsed = int.TryParse(input.ToString(), out int pageNumber);
+		while (true)
+		{
+			char input = Console.ReadKey().KeyChar;
 
-         if (!isParsed || pageNumber < 1 || pageNumber > 3)
-         {
-            Console.WriteLine();
-            Console.WriteLine("Страницы не существует");
+			bool isParsed = int.TryParse(input.ToString(), out int pageNumber);
+
+			if (!isParsed || pageNumber < 1 || pageNumber > 3)
+			{
+				Console.WriteLine();
+				Console.WriteLine("Страницы не существует");
 				continue;
 			}
 
-         var pageContent = phoneBook.Skip((pageNumber - 1) * 2).Take(2);
-         Console.WriteLine();
+			var pageContent = phoneBook.Skip((pageNumber - 1) * 2).Take(2);
+			Console.WriteLine();
 
-         foreach (var entry in pageContent)
-            Console.WriteLine(entry.FirstName + " " + entry.LastName +  ": " + entry.PhoneNumber);
+			foreach (var entry in pageContent)
+				Console.WriteLine(entry.FirstName + " " + entry.LastName +  ": " + entry.PhoneNumber);
 
-         Console.WriteLine();
-      }
+			Console.WriteLine();
+		}
 
 	}
 }
